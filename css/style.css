@@ -1,0 +1,358 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0b0b0b;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: auto;
+
+  margin: 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app-wrapper {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  text-align: center;
+}
+
+h1 {
+  color: #ffcc00;
+  margin-bottom: 5px;
+  font-size: 28px;
+}
+
+h1 span {
+  color: #a50034;
+}
+
+.status-msg {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.main-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background-color: #141414;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.8);
+  border: 1px solid #222;
+   
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 210px;
+}
+
+button {
+  padding: 16px 20px;
+  font-size: 18px;
+  background-color: #1e1e1e;
+  color: white;
+  border: 2px solid #333;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease-in-out;
+}
+
+button:focus, button:hover {
+  background-color: #a50034;
+  border-color: #ffcc00;
+  outline: none;
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(165, 0, 52, 0.6);
+}
+
+#screen-container {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  background: #000;
+  border: 4px solid #222;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+}
+
+#info-tela {
+  color: #666;
+  font-size: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* RESPONSIVIDADE VERTICAL */
+.layout-principal {
+  min-height: 100vh;
+  min-height: 100dvh;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 25px;
+}
+
+.app-wrapper {
+  align-self: center;
+}
+
+/* TELAS COM POUCA ALTURA */
+@media (max-height: 750px) {
+  .layout-principal {
+    align-items: flex-start;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+
+  .app-wrapper {
+    margin-top: 0;
+  }
+}
+
+/* FUNDO DO MODAL */
+.modal-imagem {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+
+    background: rgba(0, 0, 0, 0.95);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* IMAGEM */
+.modal-imagem img {
+    max-width: 95%;
+    max-height: 92%;
+    object-fit: contain;
+
+    border-radius: 8px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.15);
+}
+
+/* BOTÃO FECHAR */
+.modal-fechar {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+
+    background: transparent;
+    border: none;
+
+    color: white;
+    font-size: 45px;
+    cursor: pointer;
+
+    z-index: 100000;
+}
+
+.modal-fechar:hover {
+    color: #ff4444;
+}
+
+/* ==========================================
+   AJUSTES DA TELA DO ATARI
+   ========================================== */
+#jt-screen-canvas {
+  position: relative !important;
+  top: 10px !important;
+  display: block !important;
+  max-width: 100%;
+}
+
+#jt-screen-canvas-outer {
+  vertical-align: top !important;
+  line-height: 1px !important;
+  max-width: 100%;
+}
+
+/* ==========================================
+   ÁREA GERAL: MENU + ATARI
+   ========================================== */
+.layout-principal {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 25px;
+  width: 90%;
+  max-width: 1600px;
+  margin: 10px auto 0;
+}
+
+/* MENU DE CONSOLES */
+.console-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 133px);
+  gap: 13px;
+  margin-top: 5px;
+}
+
+.console-link {
+  display: block;
+  width: 140px;
+  height: 75px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #151515;
+  border: 1px solid #333;
+  transition: transform 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.console-link:hover {
+  transform: scale(1.04);
+  border-color: #168cff;
+}
+
+.console-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ÁREA DO ATARI */
+.app-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+#screen-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ==========================================
+   MODAL
+   ========================================== */
+.modal-imagem {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-imagem img {
+  display: block;
+  width: auto !important;
+  height: auto;
+  max-width: 95vw;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.modal-fechar {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  color: white;
+  background: transparent;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+  z-index: 100000;
+}
+
+/* ==========================================
+   RESPONSIVIDADE (CELULARES E TELAS MENORES)
+   ========================================== */
+@media (max-width: 900px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .layout-principal {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100%;
+    gap: 20px !important;
+  }
+
+  /* ATARI PRIMEIRO */
+  .layout-principal .app-wrapper {
+    order: 1 !important;
+    width: 100% !important;
+    flex: none !important;
+    min-width: 0 !important;
+  }
+
+  /* CONSOLES DEPOIS DO ATARI */
+  .layout-principal .console-sidebar {
+    order: 2 !important;
+    width: 96% !important;
+    max-width: 400px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin: 0 auto !important;
+  }
+
+  .layout-principal .console-link {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  #screen-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  #jt-screen-canvas,
+  #jt-screen-canvas-outer {
+    max-width: 100% !important;
+  }
+}
+
+/* CELULARES MUITO ESTREITOS */
+@media (max-width: 380px) {
+  .layout-principal {
+    width: 98%;
+  }
+
+  .console-sidebar {
+    gap: 6px;
+  }
+}

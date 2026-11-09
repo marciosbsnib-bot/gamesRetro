@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atari 2600</title>
+
+  <!-- Bibliotecas Externas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/lib/javatari.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/emu-core.js"></script>
+  <script src="js/rom-menu.js"></script>
+
+
+  <!-- Folhas de Estilo -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="layout-principal">
+
+    <!-- EMULADOR ATARI -->
+    <div class="app-wrapper">
+      <div class="main-container">
+        <div id="screen-container">
+          <div id="javatari-screen"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENU DE OUTROS CONSOLES -->
+    <div class="console-sidebar">
+      <a href="https://gamesretro.marciosbsnib.workers.dev/MasterSystem/" class="console-link">
+        <img src="master.png" alt="Master System">
+      </a>
+
+      <a href="https://gamesretro.marciosbsnib.workers.dev/Nes/" class="console-link">
+        <img src="nintendinho.png" alt="Nintendinho">
+      </a>
+
+      <a href="https://gamesretro.marciosbsnib.workers.dev/MegaDrive/" class="console-link">
+        <img src="mega.png" alt="Sega Genesis - Mega Drive">
+      </a>
+
+      <a href="#" class="console-link">
+        <img src="snes.png" alt="Super Nintendo">
+      </a>
+    </div>
+
+  </div>
+
+  <!-- MODAL -->
+  <div id="modalImagem" class="modal-imagem" onclick="fecharModalImagem(event)">
+    <button class="modal-fechar" onclick="fecharModalImagem()">
+      &times;
+    </button>
+    <img src="nnn.jpg" id="imagemModal" alt="Imagem ampliada">
+  </div>
+
+</body>
+</html>
