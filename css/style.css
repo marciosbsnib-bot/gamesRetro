@@ -213,18 +213,18 @@ button:focus, button:hover {
 
 /* MENU DE CONSOLES */
 .console-sidebar {
-  width: 220px;
+  width: 110px;
   flex-shrink: 0;
   display: grid;
-  grid-template-columns: repeat(2, 133px);
-  gap: 13px;
-  margin-top: 5px;
+  grid-template-columns: repeat(1, 110px);
+  gap: 9px;
+  margin-top: 1px;
 }
 
 .console-link {
   display: block;
-  width: 140px;
-  height: 75px;
+  width: 100px;
+  height: 68px;
   overflow: hidden;
   border-radius: 8px;
   background: #151515;

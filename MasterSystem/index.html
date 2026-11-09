@@ -1,47 +1,174 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Master System - Web Emulator</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Master System</title>
 
-    #emulator-container {
-      width: 100vw;
-      height: 100vh;
-      max-width: 960px;
-      max-height: 720px;
-    }
-  </style>
+<style>
+  :root {
+    --bg: #14141a; --panel: #1e1e28; --border: #32323f;
+    --text: #e8e8f0; --dim: #8a8a9a; --accent: #3b82f6; --ok: #6cc46c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
+    font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace;
+    display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px;
+  }
+  h1 { font-size: 18px; margin: 0; letter-spacing: 1px; }
+  
+  #emulator-container {
+    width: 750px; height: 550px; max-width: 100%;
+    background: #000;
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  #emulator-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  #status { color: var(--dim); white-space: pre-wrap; max-width: 640px; text-align: center; }
+  #status .ok { color: var(--ok); }
+  #status .err { color: var(--accent); }
+  
+  button {
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 16px; font: inherit; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button:disabled { opacity: .4; cursor: default; }
+  
+  #controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  #controls button { padding: 4px 12px; }
+
+  #library { width: min(900px, 100%); display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+  
+  #gameGallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .game-card {
+    width: 80px;
+    height: 104px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    min-width: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .game-card:hover {
+    border-color: var(--accent);
+    transform: scale(1.04);
+  }
+
+  .game-card img {
+    width: 68px;
+    height: 80px;
+    object-fit: cover;
+    background: #090910;
+    border-radius: 4px;
+    image-rendering: pixelated;
+  }
+  
+  .game-card:disabled { opacity: .65; transform: none; cursor: default; }
+  #libraryHint { color: var(--dim); font-size: 11px; text-align: center; }
+</style>
 </head>
 <body>
 
-  <!-- Container do Emulador -->
   <div id="emulator-container">
-    <div id="game"></div>
+    <!-- O iframe aponta para o arquivo separado -->
+    <iframe id="emulator-frame" src="emulator.html?rom=shinobi.sms"></iframe>
   </div>
+  
 
-  <!-- Configurações do EmulatorJS -->
+  <section id="library">
+    <div id="gameGallery">
+      <button class="game-card" data-rom="shinobi.sms">
+        <img src="roms/shinobi.png" alt="Shinobi">
+      </button>
+      <button class="game-card" data-rom="tenis.sms">
+        <img src="roms/tenis.png" alt="Tenis">
+      </button> 
+      <button class="game-card" data-rom="sonicC.sms">
+        <img src="roms/sonic.png" alt="Sonic Chaos">
+      </button>
+      <button class="game-card" data-rom="sonicH.sms">
+        <img src="roms/sonicH.png" alt="Sonic 1">
+      </button>  
+      <button class="game-card" data-rom="mk3.sms">
+        <img src="roms/mk3.png" alt="Mortal Kombat 3">
+      </button>  
+      <button class="game-card" data-rom="bart.sms">
+        <img src="roms/bart.png" alt="Bart">
+      </button>  
+      <button class="game-card" data-rom="sonicP.sms">
+        <img src="roms/sonicP.jpg" alt="Sonic Spinball">
+      </button>        
+    </div>
+    <div id="libraryHint">Selecione uma capa para carregar o jogo.</div>
+  </section>  
+
+  <div id="controls">
+    <button id="fsBtn">Fullscreen</button>
+  </div>
+  
+  <div id="status">Rodando: shinobi.sms</div>
+
   <script>
-    EJS_player = '#game';
-    EJS_core = 'segaMS'; // Core do Sega Master System
-    EJS_gameUrl = 'roms/Alex Kidd - High-Tech World (USA, Europe).sms'; // Caminho para a sua ROM
-    EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/'; // CDN dos componentes gráficos e áudio
+    "use strict";
+
+    function trocarJogo(filename) {
+      if (!filename) return;
+      
+      const hint = document.getElementById('libraryHint');
+      const status = document.getElementById('status');
+      
+      hint.textContent = 'Carregando ' + filename + '...';
+      status.innerHTML = 'Carregando: ' + filename;
+
+      const iframe = document.getElementById('emulator-frame');
+      
+      // Apenas atualiza o atributo src do iframe alterando o parâmetro da ROM.
+      // Isso destrói instantaneamente o áudio anterior e carrega o novo jogo limpo.
+      iframe.src = 'emulator.html?rom=' + encodeURIComponent(filename);
+
+      setTimeout(function() {
+        hint.textContent = 'Jogo carregado: ' + filename;
+        status.innerHTML = '<span class="ok">Rodando:</span> ' + filename;
+      }, 500);
+    }
+
+    document.querySelectorAll('.game-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        const romName = card.getAttribute('data-rom');
+        trocarJogo(romName);
+      });
+    });
+
+    document.getElementById('fsBtn').addEventListener('click', function() {
+      const container = document.getElementById('emulator-container');
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      }
+    });
   </script>
-
-  <!-- Script principal do EmulatorJS -->
-  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
-
 </body>
 </html>
