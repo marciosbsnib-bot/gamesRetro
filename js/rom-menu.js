@@ -19,8 +19,8 @@ const jogos = [
   },  
   {
     nome: "Checkerks",
-    arquivo: "roms/Checkers.bin",
-    imagem: "roms/Checkers.png"
+    arquivo: "roms/checkers.bin",
+    imagem: "roms/checkers.png"
   },
   {
     nome: "Adventure (1978)",
@@ -139,8 +139,8 @@ const jogos = [
   },
   {
     nome: "Fishing",
-    arquivo: "roms/Fishing.zip",
-    imagem: "roms/Fishing.png"
+    arquivo: "roms/fishing.bin",
+    imagem: "roms/fishing.png"
   }    
 ];
 
