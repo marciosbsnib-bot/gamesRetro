@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master System - Web Emulator</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #emulator-container {
+      width: 100vw;
+      height: 100vh;
+      max-width: 960px;
+      max-height: 720px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Container do Emulador -->
+  <div id="emulator-container">
+    <div id="game"></div>
+  </div>
+
+  <!-- Configurações do EmulatorJS -->
+  <script>
+    EJS_player = '#game';
+    EJS_core = 'segaMS'; // Core do Sega Master System
+    EJS_gameUrl = 'roms/Alex Kidd - High-Tech World (USA, Europe).sms'; // Caminho para a sua ROM
+    EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/'; // CDN dos componentes gráficos e áudio
+  </script>
+
+  <!-- Script principal do EmulatorJS -->
+  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+
+</body>
+</html>
